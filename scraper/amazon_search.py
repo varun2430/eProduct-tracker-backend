@@ -44,8 +44,9 @@ class AmazonSearch():
                 try:
                     product_id = item["data-asin"]
                     base_url = "https://www.amazon.in/dp/" + product_id
-                    product_name = item.find("h2", class_="a-size-mini a-spacing-none a-color-base s-line-clamp-4")
-                    product_price = item.find("span", class_="a-price-whole")
+                    # product_name = item.find("h2", class_="a-size-mini a-spacing-none a-color-base s-line-clamp-4").text
+                    product_name = item.find("span", class_="a-size-base-plus a-color-base a-text-normal").text
+                    product_price = item.find("span", class_="a-price-whole").text
 
                     price = Price(p=price_to_str(product_price), dt=str(datetime.now()))
                     product_date = Product(store="amazon", product_id=product_id, base_url=base_url, product_name=product_name, product_price=[price])
