@@ -9,14 +9,13 @@ from starlette.status import (
     HTTP_422_UNPROCESSABLE_ENTITY,
 )
 
-from models.search import req_search
 from crud.search import scrape_search
 
 router = APIRouter()
 
-@router.get("/")
-async def getSearch(req_search: req_search):
-    result = scrape_search(req_search.store, req_search.search)
+@router.get("/{store}/{search_str}")
+async def getSearch(store: str, search_str: str):
+    result = scrape_search(store, search_str)
     if result:
         return result
     else:
