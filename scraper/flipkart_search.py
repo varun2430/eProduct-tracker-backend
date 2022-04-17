@@ -3,6 +3,7 @@ from datetime import datetime
 
 from scraper.utils import get_page, get_soup, price_to_str
 from models.product import Price, Product
+from models.search import SearchProduct
 
 
 
@@ -45,8 +46,17 @@ class FlipkartSearch():
                     product_name = item.find("div", class_="_4rR01T").text
                     product_price = item.find("div", class_="_30jeq3 _1_WHN1").text
 
-                    price = Price(p=price_to_str(product_price), dt=str(datetime.now()))
-                    product_data = Product(store="flipkart", product_id=product_id, base_url=base_url, product_name=product_name, product_price=[price])
+                    # price = Price(p=price_to_str(product_price), dt=str(datetime.now()))
+                    # product_data = Product(store="flipkart", product_id=product_id, base_url=base_url, product_name=product_name, product_price=[price])
+
+                    product_data = SearchProduct(   store = "flipkart", 
+                                                    product_id = product_id, 
+                                                    base_url = base_url, 
+                                                    img_src = "", 
+                                                    product_name = product_name, 
+                                                    product_description = "", 
+                                                    product_price = price_to_str(product_price), 
+                                                    dt = str(datetime.now()))
                     result.append(product_data)
                 except Exception as err:
                     print("Unable to get product data")
@@ -60,8 +70,17 @@ class FlipkartSearch():
                     product_name = item.find("a", class_="s1Q9rs")["title"]
                     product_price = item.find("div", class_="_30jeq3").text
 
-                    price = Price(p=price_to_str(product_price), dt=str(datetime.now()))
-                    product_data = Product(store="flipkart", product_id=product_id, base_url=base_url, product_name=product_name, product_price=[price])
+                    # price = Price(p=price_to_str(product_price), dt=str(datetime.now()))
+                    # product_data = Product(store="flipkart", product_id=product_id, base_url=base_url, product_name=product_name, product_price=[price])
+
+                    product_data = SearchProduct(   store = "flipkart", 
+                                                    product_id = product_id, 
+                                                    base_url = base_url, 
+                                                    img_src = "", 
+                                                    product_name = product_name, 
+                                                    product_description = "", 
+                                                    product_price = price_to_str(product_price), 
+                                                    dt = str(datetime.now()))
                     result.append(product_data)
                 except Exception as err:
                     print("Unable to get product data")
@@ -75,8 +94,17 @@ class FlipkartSearch():
                     product_name = item.find("a", class_="IRpwTa")["title"]
                     product_price = item.find("div", class_="_30jeq3").text
 
-                    price = Price(p=price_to_str(product_price), dt=str(datetime.now()))
-                    product_data = Product(store="flipkart", product_id=product_id, base_url=base_url, product_name=product_name, product_price=[price])
+                    # price = Price(p=price_to_str(product_price), dt=str(datetime.now()))
+                    # product_data = Product(store="flipkart", product_id=product_id, base_url=base_url, product_name=product_name, product_price=[price])
+
+                    product_data = SearchProduct(   store = "flipkart", 
+                                                    product_id = product_id, 
+                                                    base_url = base_url, 
+                                                    img_src = "", 
+                                                    product_name = product_name, 
+                                                    product_description = "", 
+                                                    product_price = price_to_str(product_price), 
+                                                    dt = str(datetime.now()))
                     result.append(product_data)
                 except Exception as err:
                     print("Unable to get product data")
