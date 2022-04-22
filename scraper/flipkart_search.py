@@ -46,9 +46,6 @@ class FlipkartSearch():
                     product_name = item.find("div", class_="_4rR01T").text
                     product_price = item.find("div", class_="_30jeq3 _1_WHN1").text
 
-                    # price = Price(p=price_to_str(product_price), dt=str(datetime.now()))
-                    # product_data = Product(store="flipkart", product_id=product_id, base_url=base_url, product_name=product_name, product_price=[price])
-
                     product_data = SearchProduct(   store = "flipkart", 
                                                     product_id = product_id, 
                                                     base_url = base_url, 
@@ -66,12 +63,9 @@ class FlipkartSearch():
                 try:
                     full_url = "https://www.flipkart.com" + item.find("a", class_="_2rpwqI")["href"]
                     base_url = self.get_baseURL(full_url)
-                    product_id = self.get_productID(base_url)
+                    product_id = self.get_productID(full_url)
                     product_name = item.find("a", class_="s1Q9rs")["title"]
                     product_price = item.find("div", class_="_30jeq3").text
-
-                    # price = Price(p=price_to_str(product_price), dt=str(datetime.now()))
-                    # product_data = Product(store="flipkart", product_id=product_id, base_url=base_url, product_name=product_name, product_price=[price])
 
                     product_data = SearchProduct(   store = "flipkart", 
                                                     product_id = product_id, 
@@ -84,6 +78,7 @@ class FlipkartSearch():
                     result.append(product_data)
                 except Exception as err:
                     print("Unable to get product data")
+                    print(err)
 
         elif search_items_2:
             for item in search_items_2:
@@ -93,9 +88,6 @@ class FlipkartSearch():
                     product_id = self.get_productID(base_url)
                     product_name = item.find("a", class_="IRpwTa")["title"]
                     product_price = item.find("div", class_="_30jeq3").text
-
-                    # price = Price(p=price_to_str(product_price), dt=str(datetime.now()))
-                    # product_data = Product(store="flipkart", product_id=product_id, base_url=base_url, product_name=product_name, product_price=[price])
 
                     product_data = SearchProduct(   store = "flipkart", 
                                                     product_id = product_id, 

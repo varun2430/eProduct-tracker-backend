@@ -3,14 +3,12 @@ from starlette.exceptions import HTTPException
 from starlette.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
-    HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
-    HTTP_422_UNPROCESSABLE_ENTITY,
 )
 
 from models.product import req_product
-from crud.product import get_pid, get_product, get_product_nodict, get_products, put_product, scrape_product
+from crud.product import get_pid, get_product, get_product_nodict, get_products, get_products_nodict, put_product, scrape_product, update_product
 from database.mongodb import AsyncIOMotorClient, get_database
 
 router = APIRouter()
@@ -65,18 +63,7 @@ async def putProduct(req_product: req_product, db: AsyncIOMotorClient = Depends(
 async def updateProduct(store:str, pid:str, db: AsyncIOMotorClient = Depends(get_database)):
     product = await get_product_nodict(store, pid, db)
     if product:
-        url = product.base_url
-        if store == "flipkart":
-            url = url + "&lid"
-        elif store == "amazon":
-            url = url + "/"
-
-        new_product = scrape_product(product.store, url)
-
-        price_list = product.product_price
-        price_list.append(new_product.product_price[0])
-
-        result = await db["ecom_product"][store].replace_one({"product_id": pid}, product.dict())
+        result = await update_product(product, db)
         if result:
             raise HTTPException(
             status_code=HTTP_200_OK,
@@ -87,6 +74,22 @@ async def updateProduct(store:str, pid:str, db: AsyncIOMotorClient = Depends(get
             status_code=HTTP_404_NOT_FOUND,
             detail=f"{store} product with pid {pid} not found",
         )
+
+
+
+@router.put("/{store}")
+async def updateProducts(store: str, db: AsyncIOMotorClient = Depends(get_database)):
+    product_list = await get_products_nodict(store, db)
+    if product_list:
+        for product in product_list:
+            result = await update_product(product, db)
+        raise HTTPException(
+            status_code=HTTP_200_OK,
+            detail=f"{store} products updated",)
+    else:
+        raise HTTPException(
+            status_code=HTTP_404_NOT_FOUND,
+            detail=f"no {store} products found in db",)
 
 
 
